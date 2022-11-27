@@ -45,5 +45,3 @@ class Util {
     return this.title + this.array.toString();
   }
 }
-
-module.export = Util;

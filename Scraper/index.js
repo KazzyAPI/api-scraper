@@ -25,7 +25,6 @@ async function scrapeApi(uri, timeout) {
     logger.debug(`Listening for ${timeout / 1000} seconds...`);
     page.on("request", (request) => {
       let string = request.url();
-      let response = request._response;
       if (string.includes("api")) {
         logger.info(string);
         arr.push(string);
@@ -39,10 +38,15 @@ async function scrapeApi(uri, timeout) {
       logger.debug("Writing to file...");
       let date = new Date().toTimeString().split(" ")[0];
 
-      fs.writeFileSync(`../Results/${date}.txt`, "h",'utf8' , (err) => {
-        if (err) return console.error(err.message);
-        logger.debug("File written");
-      });
+      fs.writeFileSync(
+        `../Results/${date}.txt`,
+        arr.join(","),
+        "utf8",
+        (err) => {
+          if (err) return console.error(err.message);
+          logger.debug("File written");
+        }
+      );
     }, timeout);
   } catch (error) {
     logger.error(error);
